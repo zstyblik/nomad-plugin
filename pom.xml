@@ -32,6 +32,8 @@
     <url>https://github.com/jenkinsci/nomad-plugin</url>
   </scm>
 
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/Nomad+Plugin</url>
+
   <developers>
     <developer>
       <id>iverberk</id>
