@@ -32,7 +32,7 @@ public class NomadApiTest {
 
     @Test
     public void testStartSlave() {
-        String job = nomadApi.buildSlaveJob("slave-1", slaveTemplate);
+        String job = nomadApi.buildSlaveJob("slave-1","secret", slaveTemplate);
         
         assertTrue(job.contains("\"Region\":\"ams\""));
         assertTrue(job.contains("\"CPU\":300"));

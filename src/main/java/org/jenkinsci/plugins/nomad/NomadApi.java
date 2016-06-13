@@ -25,10 +25,11 @@ public final class NomadApi {
         this.nomadApi = nomadApi;
     }
 
-    public void startSlave(String slaveName, NomadSlaveTemplate template) {
+    public void startSlave(String slaveName, String jnlpSecret, NomadSlaveTemplate template) {
 
         String slaveJob = buildSlaveJob(
             slaveName,
+            jnlpSecret,
             template
         );
 
@@ -61,16 +62,16 @@ public final class NomadApi {
 
     }
 
-    private Map<String,Object> buildDriverConfig(String name, NomadSlaveTemplate template) {
+    private Map<String,Object> buildDriverConfig(String name, String secret, NomadSlaveTemplate template) {
         Map<String,Object> driverConfig = new HashMap<>();
 
         if (template.getDriver().equals("java")) {
             driverConfig.put("jar_path", "slave.jar");
-            driverConfig.put("args", new String[]{"-jnlpUrl", template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp"});
+            driverConfig.put("args", new String[]{"-jnlpUrl", template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp", "-secret", secret });
         } else if (template.getDriver().equals("docker")) {
             driverConfig.put("image", template.getImage());
             driverConfig.put("command", "java");
-            driverConfig.put("args", new String[]{"-jar", "/local/local/slave.jar", "-jnlpUrl", template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp"});
+            driverConfig.put("args", new String[]{"-jar", "/local/local/slave.jar", "-jnlpUrl", template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp", "-secret", secret });
         }
 
         return driverConfig;
@@ -78,13 +79,14 @@ public final class NomadApi {
 
     String buildSlaveJob(
             String name,
+            String secret,
             NomadSlaveTemplate template
     ) {
 
         Task task = new Task(
                 "jenkins-slave",
                 template.getDriver(),
-                buildDriverConfig(name, template),
+                buildDriverConfig(name, secret,template),
                 new Resource(
                     template.getCpu(),
                     template.getMemory(),
