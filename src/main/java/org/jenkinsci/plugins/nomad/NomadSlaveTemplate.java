@@ -32,7 +32,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
 
     private NomadCloud cloud;
     private String driver;
-    private final String[] datacenters = new String[]{"dc1"};
+    private String datacenters;
     private Set<LabelAtom> labelSet;
 
     @DataBoundConstructor
@@ -45,7 +45,8 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String idleTerminationInMinutes,
             String region,
             String priority,
-            String image
+            String image,
+            String datacenters
             ) {
         this.cpu = Integer.parseInt(cpu);
         this.memory = Integer.parseInt(memory);
@@ -57,6 +58,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.labelSet = Label.parse(labels);
         this.region = region;
         this.image = image;
+        this.datacenters = datacenters;
 
         readResolve();
     }
@@ -117,7 +119,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         return region;
     }
 
-    public String[] getDatacenters() {
+    public String getDatacenters() {
         return datacenters;
     }
 

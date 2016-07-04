@@ -21,7 +21,11 @@
         </f:entry>
 
         <f:entry title="Region" field="region">
-            <f:textbox/>
+            <f:textbox default="global" />
+        </f:entry>
+
+        <f:entry title="Datacenters" field="datacenters">
+            <f:textbox default="dc1"/>
         </f:entry>
 
         <f:entry title="Priority" field="priority">

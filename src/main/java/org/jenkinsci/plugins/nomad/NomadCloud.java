@@ -79,21 +79,23 @@ public class NomadCloud extends AbstractCloudImpl {
         List<NodeProvisioner.PlannedNode> nodes = new ArrayList<>();
         final NomadSlaveTemplate template = getTemplate(label);
 
-        try {
-            while (excessWorkload > 0) {
-                LOGGER.log(Level.INFO, "Excess workload, provisioning new Jenkins slave on Nomad cluster");
+        if (template != null) {
+            try {
+                while (excessWorkload > 0) {
+                    LOGGER.log(Level.INFO, "Excess workload, provisioning new Jenkins slave on Nomad cluster");
 
-                final String slaveName = template.createSlaveName();
-                nodes.add(new NodeProvisioner.PlannedNode(
+                    final String slaveName = template.createSlaveName();
+                    nodes.add(new NodeProvisioner.PlannedNode(
                             slaveName,
                             NomadComputer.threadPoolForRemoting.submit(
-                                new ProvisioningCallback(slaveName, template, this)
+                                    new ProvisioningCallback(slaveName, template, this)
                             ), template.getNumExecutors()));
-                excessWorkload -= template.getNumExecutors();
+                    excessWorkload -= template.getNumExecutors();
+                }
+                return nodes;
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Unable to schedule new Jenkins slave on Nomad cluster, message: " + e.getMessage());
             }
-            return nodes;
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Unable to schedule new Jenkins slave on Nomad cluster, message: " + e.getMessage());
         }
 
         return Collections.emptyList();

@@ -37,7 +37,7 @@ public final class NomadApi {
         try {
             RequestBody body = RequestBody.create(JSON, slaveJob);
             Request request = new Request.Builder()
-                    .url(this.nomadApi + "/v1/job/" + slaveName)
+                    .url(this.nomadApi + "/v1/job/" + slaveName + "?region=" + template.getRegion())
                     .put(body)
                     .build();
 
@@ -124,7 +124,7 @@ public final class NomadApi {
                 template.getRegion(),
                 "batch",
                 template.getPriority(),
-                template.getDatacenters(),
+                template.getDatacenters().split(","),
                 new TaskGroup[]{taskGroup}
         );
 
