@@ -129,8 +129,7 @@ public class NomadCloud extends AbstractCloudImpl {
             // Support for Jenkins security
             String jnlpSecret = "";
             if(Jenkins.getInstance().isUseSecurity()) {
-                    SlaveComputer computer = (SlaveComputer) Jenkins.getInstance().getComputer(slaveName);
-                    jnlpSecret = computer.getJnlpMac();
+                    jnlpSecret = jenkins.slaves.JnlpSlaveAgentProtocol.SLAVE_SECRET.mac(slaveName);
             }
 
             LOGGER.log(Level.INFO, "Asking Nomad to schedule new Jenkins slave");

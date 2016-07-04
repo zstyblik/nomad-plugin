@@ -6,6 +6,7 @@ import okhttp3.*;
 import org.jenkinsci.plugins.nomad.Api.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -65,13 +66,25 @@ public final class NomadApi {
     private Map<String,Object> buildDriverConfig(String name, String secret, NomadSlaveTemplate template) {
         Map<String,Object> driverConfig = new HashMap<>();
 
+        ArrayList<String> args = new ArrayList<>();
+        args.add("-jnlpUrl");
+        args.add(template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp");
+
+        if (!secret.isEmpty()) {
+            args.add("-secret");
+            args.add(secret);
+        }
+
         if (template.getDriver().equals("java")) {
-            driverConfig.put("jar_path", "slave.jar");
-            driverConfig.put("args", new String[]{"-jnlpUrl", template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp", "-secret", secret });
+            driverConfig.put("jar_path", "/local/slave.jar");
+            driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
+            args.add("-jar");
+            args.add("/local/slave.jar");
+
             driverConfig.put("image", template.getImage());
             driverConfig.put("command", "java");
-            driverConfig.put("args", new String[]{"-jar", "/local/local/slave.jar", "-jnlpUrl", template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp", "-secret", secret });
+            driverConfig.put("args", args);
         }
 
         return driverConfig;
