@@ -29,6 +29,9 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private final String region;
     private final String remoteFs;
     private final String image;
+    private final String username;
+    private final String password;
+
 
     private NomadCloud cloud;
     private String driver;
@@ -46,7 +49,9 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String region,
             String priority,
             String image,
-            String datacenters
+            String datacenters,
+            String username,
+            String password
             ) {
         this.cpu = Integer.parseInt(cpu);
         this.memory = Integer.parseInt(memory);
@@ -59,6 +64,8 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.region = region;
         this.image = image;
         this.datacenters = datacenters;
+        this.username = username;
+        this.password = password;
 
         readResolve();
     }
@@ -145,6 +152,14 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
 
     public String getImage() {
         return image;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getDriver() {

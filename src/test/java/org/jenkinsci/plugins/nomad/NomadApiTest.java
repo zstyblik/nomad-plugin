@@ -15,7 +15,7 @@ public class NomadApiTest {
     NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
             "300", "256", "100",
             null, "remoteFs", "3",
-            "ams", "0", "image"
+            "ams", "0", "image", "dc01", "none", "none"
     );
 
     private NomadCloud nomadCloud = new NomadCloud(
@@ -33,7 +33,7 @@ public class NomadApiTest {
     @Test
     public void testStartSlave() {
         String job = nomadApi.buildSlaveJob("slave-1","secret", slaveTemplate);
-        
+
         assertTrue(job.contains("\"Region\":\"ams\""));
         assertTrue(job.contains("\"CPU\":300"));
         assertTrue(job.contains("\"MemoryMB\":256"));
