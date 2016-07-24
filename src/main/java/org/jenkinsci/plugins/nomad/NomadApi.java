@@ -79,8 +79,8 @@ public final class NomadApi {
             driverConfig.put("jar_path", "/local/slave.jar");
             driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
-            args.add("-jar");
-            args.add("/local/slave.jar");
+            args.add(0, "-jar");
+            args.add(1, "/local/slave.jar");
 
             driverConfig.put("image", template.getImage());
             driverConfig.put("command", "java");
