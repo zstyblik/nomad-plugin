@@ -15,7 +15,7 @@ public class NomadApiTest {
     NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
             "300", "256", "100",
             null, "remoteFs", "3",
-            "ams", "0", "image"
+            "ams", "0", "image", "dc01"
     );
 
     private NomadCloud nomadCloud = new NomadCloud(
