@@ -40,9 +40,15 @@
             <f:textbox/>
         </f:entry>
 
-        <f:optionalBlock name="iamge" title="Use Docker driver" inline="true" checked="${instance.image != null}">
+        <f:optionalBlock name="docker" title="Use Docker driver" inline="true" checked="${instance.image != null}">
             <f:entry title="Image">
                 <f:textbox name="image" field="image"/>
+            </f:entry>
+            <f:entry title="Username">
+                <f:textbox name="username" field="username" default="none"/>
+            </f:entry>
+            <f:entry title="Password">
+                <f:password name="password" field="password" default="none"/>
             </f:entry>
         </f:optionalBlock>
 
