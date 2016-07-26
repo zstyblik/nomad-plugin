@@ -44,6 +44,12 @@
             <f:entry title="Image">
                 <f:textbox name="image" field="image"/>
             </f:entry>
+            <f:entry title="Privileged">
+                <f:checkbox name="privileged" field="privileged" default="false" value="${instance.privileged}" />
+            </f:entry>
+            <f:entry title="Network">
+                <f:textbox name="network" field="network" default="bridge"/>
+            </f:entry>
         </f:optionalBlock>
 
         <f:entry title="">

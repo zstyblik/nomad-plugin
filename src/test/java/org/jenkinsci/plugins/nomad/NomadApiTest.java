@@ -15,7 +15,7 @@ public class NomadApiTest {
     NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
             "300", "256", "100",
             null, "remoteFs", "3",
-            "ams", "0", "image", "dc01"
+            "ams", "0", "image", "dc01", false, "bridge"
     );
 
     private NomadCloud nomadCloud = new NomadCloud(
@@ -39,6 +39,8 @@ public class NomadApiTest {
         assertTrue(job.contains("\"MemoryMB\":256"));
         assertTrue(job.contains("\"DiskMB\":100"));
         assertTrue(job.contains("\"GetterSource\":\"slaveUrl\""));
+        assertTrue(job.contains("\"privileged\":false"));
+        assertTrue(job.contains("\"network_mode\":\"bridge\""));
     }
 
 }
