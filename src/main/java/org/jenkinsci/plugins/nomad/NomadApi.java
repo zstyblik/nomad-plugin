@@ -33,7 +33,7 @@ public final class NomadApi {
             jnlpSecret,
             template
         );
-
+        LOGGER.log(Level.INFO, slaveJob);
         try {
             RequestBody body = RequestBody.create(JSON, slaveJob);
             Request request = new Request.Builder()
@@ -79,8 +79,8 @@ public final class NomadApi {
             driverConfig.put("jar_path", "/local/slave.jar");
             driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
-            args.add("-jar");
-            args.add("/local/slave.jar");
+            args.add(0, "-jar");
+            args.add(1, "/local/slave.jar");
 
             driverConfig.put("image", template.getImage());
             driverConfig.put("command", "java");
@@ -107,7 +107,7 @@ public final class NomadApi {
                 ),
                 new LogConfig(1, 10),
                 new Artifact[]{
-                    new Artifact(template.getCloud().getSlaveUrl(), null, "local/")
+                    new Artifact(template.getCloud().getSlaveUrl(), null, "")
                 }
         );
 
