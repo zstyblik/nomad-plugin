@@ -45,10 +45,10 @@
                 <f:textbox name="image" field="image"/>
             </f:entry>
             <f:entry title="Username">
-                <f:textbox name="username" field="username" default="none"/>
+                <f:textbox name="username" field="username" default=""/>
             </f:entry>
             <f:entry title="Password">
-                <f:password name="password" field="password" default="none"/>
+                <f:password name="password" field="password" />
             </f:entry>
         </f:optionalBlock>
 

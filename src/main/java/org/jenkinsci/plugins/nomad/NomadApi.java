@@ -71,16 +71,16 @@ public final class NomadApi {
         ArrayList<String> args = new ArrayList<>();
         args.add("-jnlpUrl");
         args.add(template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp");
-        
-        ArrayList<Map> auth_list = new ArrayList<>();
-        Map<String,String> auth = new HashMap<>();
-        if (! template.getUsername().equals("none"))
-        {
-            
-            auth.put("username", template.getUsername());
-            auth.put("password", template.getPassword());
-            auth_list.add(auth);
-            driverConfig.put("auth", auth_list);
+
+        if (!template.getUsername().isEmpty()) {
+            Map<String,String> authConfig = new HashMap<>();
+            authConfig.put("username", template.getUsername());
+            authConfig.put("password", template.getPassword());
+
+            ArrayList<Map> credentials = new ArrayList<>();
+            credentials.add(authConfig);
+
+            driverConfig.put("auth", credentials);
         }
 
         if (!secret.isEmpty()) {

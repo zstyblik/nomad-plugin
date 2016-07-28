@@ -11,11 +11,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class NomadApiTest {
 
-    NomadApi nomadApi = new NomadApi("http://localhost");
-    NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
+    private NomadApi nomadApi = new NomadApi("http://localhost");
+    private NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
             "300", "256", "100",
             null, "remoteFs", "3",
-            "ams", "0", "image", "dc01", "none", "none"
+            "ams", "0", "image", "dc01", "", ""
     );
 
     private NomadCloud nomadCloud = new NomadCloud(
