@@ -32,7 +32,6 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private final String username;
     private final String password;
 
-
     private NomadCloud cloud;
     private String driver;
     private String datacenters;
