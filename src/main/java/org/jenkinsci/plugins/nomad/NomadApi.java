@@ -33,7 +33,9 @@ public final class NomadApi {
             jnlpSecret,
             template
         );
+
         LOGGER.log(Level.INFO, slaveJob);
+
         try {
             RequestBody body = RequestBody.create(JSON, slaveJob);
             Request request = new Request.Builder()
@@ -70,6 +72,17 @@ public final class NomadApi {
         args.add("-jnlpUrl");
         args.add(template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp");
 
+        if (template.getUsername() != null && !template.getUsername().isEmpty()) {
+            Map<String,String> authConfig = new HashMap<>();
+            authConfig.put("username", template.getUsername());
+            authConfig.put("password", template.getPassword());
+
+            ArrayList<Map> credentials = new ArrayList<>();
+            credentials.add(authConfig);
+
+            driverConfig.put("auth", credentials);
+        }
+
         if (!secret.isEmpty()) {
             args.add("-secret");
             args.add(secret);
@@ -83,6 +96,7 @@ public final class NomadApi {
             args.add(1, "/local/slave.jar");
 
             driverConfig.put("image", template.getImage());
+
             driverConfig.put("command", "java");
             driverConfig.put("args", args);
             driverConfig.put("privileged", template.getPrivileged());
