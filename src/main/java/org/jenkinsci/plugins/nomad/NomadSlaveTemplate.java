@@ -33,6 +33,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private final String network;
     private final String username;
     private final String password;
+    private final String additionalCmd;
 
     private NomadCloud cloud;
     private String driver;
@@ -54,7 +55,8 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String username,
             String password,
             Boolean privileged,
-            String network
+            String network,
+            String additionalCmd
             ) {
         this.cpu = Integer.parseInt(cpu);
         this.memory = Integer.parseInt(memory);
@@ -71,7 +73,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.password = password;
         this.privileged = privileged;
         this.network = network;
-
+        this.additionalCmd = additionalCmd;
         readResolve();
     }
 
@@ -80,6 +82,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         return this;
     }
 
+   
     @Extension
     public static final class DescriptorImpl extends Descriptor<NomadSlaveTemplate> {
 
@@ -165,6 +168,10 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
 
     public String getPassword() {
         return password;
+    }
+    
+    public String getAdditionalCmd() {
+        return additionalCmd;
     }
 
     public String getDriver() {
