@@ -93,12 +93,12 @@ public final class NomadApi {
             driverConfig.put("jar_path", "/local/slave.jar");
             driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
-            String addCmd = template.getAdditionalCmd();
+            String prefixCmd = template.getPrefixCmd();
             // If an addtional command is defined - prepend it to jenkins slave invocation
-            if (! addCmd.isEmpty())
+            if (! prefixCmd.isEmpty())
             {
                 driverConfig.put("command", "/bin/bash");
-                String argString = addCmd+"; java -jar /local/slave.jar ";
+                String argString = prefixCmd+"; java -jar /local/slave.jar ";
                 argString += StringUtils.join(args, " ");
                 args.clear();
                 args.add("-c");

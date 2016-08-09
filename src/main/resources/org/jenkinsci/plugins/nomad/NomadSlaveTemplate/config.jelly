@@ -56,8 +56,8 @@
             <f:entry title="Network">
                 <f:textbox name="network" field="network" default="bridge"/>
             </f:entry>
-            <f:entry title="Addtional Command" field="addCmd">
-                <f:textbox name="additionalCmd" field="additionalCmd"/>
+            <f:entry title="Prefix Command" field="preCmd">
+                <f:textbox name="prefixCmd" field="prefixCmd"/>
             </f:entry>
         </f:optionalBlock>
 
