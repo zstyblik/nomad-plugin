@@ -20,6 +20,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private static final Logger LOGGER = Logger.getLogger(NomadSlaveTemplate.class.getName());
 
     private final int idleTerminationInMinutes;
+    private final int numExecutors;
 
     private final int cpu;
     private final int memory;
@@ -48,6 +49,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String labels,
             String remoteFs,
             String idleTerminationInMinutes,
+            String numExecutors,
             String region,
             String priority,
             String image,
@@ -63,6 +65,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.disk = Integer.parseInt(disk);
         this.priority = Integer.parseInt(priority);
         this.idleTerminationInMinutes = Integer.parseInt(idleTerminationInMinutes);
+        this.numExecutors = Integer.parseInt(numExecutors);
         this.remoteFs = remoteFs;
         this.labels = Util.fixNull(labels);
         this.labelSet = Label.parse(labels);
@@ -111,7 +114,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     }
 
     public int getNumExecutors() {
-        return 1;
+        return numExecutors;
     }
 
     public int getCpu() {
