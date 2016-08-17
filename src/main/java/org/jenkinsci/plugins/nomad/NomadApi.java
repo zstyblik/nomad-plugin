@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
 
 public final class NomadApi {
 
@@ -92,12 +93,24 @@ public final class NomadApi {
             driverConfig.put("jar_path", "/local/slave.jar");
             driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
-            args.add(0, "-jar");
-            args.add(1, "/local/slave.jar");
-
+            String prefixCmd = template.getPrefixCmd();
+            // If an addtional command is defined - prepend it to jenkins slave invocation
+            if (! prefixCmd.isEmpty())
+            {
+                driverConfig.put("command", "/bin/bash");
+                String argString = prefixCmd+"; java -jar /local/slave.jar ";
+                argString += StringUtils.join(args, " ");
+                args.clear();
+                args.add("-c");
+                args.add(argString);
+            }
+            else {
+                driverConfig.put("command", "java");
+                args.add(0, "-jar");
+                args.add(1, "/local/slave.jar");
+            }
             driverConfig.put("image", template.getImage());
-
-            driverConfig.put("command", "java");
+         
             driverConfig.put("args", args);
             driverConfig.put("privileged", template.getPrivileged());
             driverConfig.put("network_mode", template.getNetwork());
