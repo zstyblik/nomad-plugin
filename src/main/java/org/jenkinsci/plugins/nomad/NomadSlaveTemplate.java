@@ -7,6 +7,7 @@ import hudson.Util;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Label;
+import hudson.model.Node;
 import hudson.model.labels.LabelAtom;
 import jenkins.model.Jenkins;
 
@@ -35,6 +36,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private final String username;
     private final String password;
     private final String prefixCmd;
+    private final Node.Mode mode;
 
     private NomadCloud cloud;
     private String driver;
@@ -50,6 +52,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String remoteFs,
             String idleTerminationInMinutes,
             String numExecutors,
+            Node.Mode mode,
             String region,
             String priority,
             String image,
@@ -66,6 +69,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.priority = Integer.parseInt(priority);
         this.idleTerminationInMinutes = Integer.parseInt(idleTerminationInMinutes);
         this.numExecutors = Integer.parseInt(numExecutors);
+        this.mode = mode;
         this.remoteFs = remoteFs;
         this.labels = Util.fixNull(labels);
         this.labelSet = Label.parse(labels);
@@ -116,6 +120,11 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     public int getNumExecutors() {
         return numExecutors;
     }
+    
+    public Node.Mode getMode() {
+        return mode;
+    }
+
 
     public int getCpu() {
         return cpu;

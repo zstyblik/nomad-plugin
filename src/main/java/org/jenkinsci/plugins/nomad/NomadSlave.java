@@ -23,7 +23,6 @@ public class NomadSlave extends AbstractCloudSlave implements EphemeralNode {
         String nodeDescription,
         NomadSlaveTemplate template,
         String labelString,
-        Mode mode,
         hudson.slaves.RetentionStrategy retentionStrategy,
         List<? extends NodeProperty<?>> nodeProperties
     ) throws Descriptor.FormException, IOException {
@@ -32,7 +31,7 @@ public class NomadSlave extends AbstractCloudSlave implements EphemeralNode {
             nodeDescription,
             template.getRemoteFs(),
             template.getNumExecutors(),
-            mode,
+            template.getMode(),
             labelString,
             new JNLPLauncher(),
             retentionStrategy,

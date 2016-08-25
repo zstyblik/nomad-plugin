@@ -122,7 +122,6 @@ public class NomadCloud extends AbstractCloudImpl {
                     "Nomad Jenkins Slave",
                     template,
                     template.getLabels(),
-                    Node.Mode.NORMAL,
                     new NomadRetentionStrategy(template.getIdleTerminationInMinutes()),
                     Collections.<NodeProperty<?>>emptyList()
             );

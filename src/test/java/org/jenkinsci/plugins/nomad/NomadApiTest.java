@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.nomad;
 
+import hudson.model.Node;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class NomadApiTest {
     private NomadApi nomadApi = new NomadApi("http://localhost");
     private NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
             "300", "256", "100",
-            null, "remoteFs", "3",
+            null, "remoteFs", "3","1", Node.Mode.NORMAL,
             "ams", "0", "image", "dc01", "", "", false, "bridge",""
     );
 
