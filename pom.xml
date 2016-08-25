@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>nomad</artifactId>
-  <version>0.3</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Nomad Plugin</name>
