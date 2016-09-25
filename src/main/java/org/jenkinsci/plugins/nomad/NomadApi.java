@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.nomad;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import hudson.Util;
 import okhttp3.*;
 import org.jenkinsci.plugins.nomad.Api.*;
 
@@ -71,7 +72,8 @@ public final class NomadApi {
 
         ArrayList<String> args = new ArrayList<>();
         args.add("-jnlpUrl");
-        args.add(template.getCloud().getJenkinsUrl() + "computer/" + name + "/slave-agent.jnlp");
+
+        args.add(Util.ensureEndsWith(template.getCloud().getJenkinsUrl(), "/") + "computer/" + name + "/slave-agent.jnlp");
 
         if (template.getUsername() != null && !template.getUsername().isEmpty()) {
             Map<String,String> authConfig = new HashMap<>();
@@ -90,15 +92,15 @@ public final class NomadApi {
         }
 
         if (template.getDriver().equals("java")) {
-            driverConfig.put("jar_path", "/local/slave.jar");
+            driverConfig.put("jar_path", "/slave.jar");
             driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
             String prefixCmd = template.getPrefixCmd();
             // If an addtional command is defined - prepend it to jenkins slave invocation
-            if (! prefixCmd.isEmpty())
+            if (!prefixCmd.isEmpty())
             {
                 driverConfig.put("command", "/bin/bash");
-                String argString = prefixCmd+"; java -jar /local/slave.jar ";
+                String argString = prefixCmd + "; java -jar /local/slave.jar ";
                 argString += StringUtils.join(args, " ");
                 args.clear();
                 args.add("-c");
