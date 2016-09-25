@@ -40,15 +40,15 @@
             <f:textbox default="1" />
         </f:entry>
         
-        <f:slave-mode name="mode" field="mode" node="${instance}" />
+        <f:slave-mode name="mode" node="${instance}" />
 
         <f:entry title="Workspace root" field="remoteFs">
             <f:textbox/>
         </f:entry>
 
-        <f:optionalBlock name="docker" title="Use Docker driver" inline="true" checked="${instance.image != null}">
+        <f:optionalBlock name="docker" title="Use Docker driver" inline="true" checked="${!instance.image.isEmpty()}">
             <f:entry title="Image">
-                <f:textbox name="image" field="image" />
+                <f:textbox name="image" field="image" default="" />
             </f:entry>
             <f:entry title="Username">
                 <f:textbox name="username" field="username" />
