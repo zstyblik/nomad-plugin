@@ -38,7 +38,7 @@ public class NomadApiTest {
         assertTrue(job.contains("\"Region\":\"ams\""));
         assertTrue(job.contains("\"CPU\":300"));
         assertTrue(job.contains("\"MemoryMB\":256"));
-        assertTrue(job.contains("\"DiskMB\":100"));
+        assertTrue(job.contains("\"SizeMB\":100"));
         assertTrue(job.contains("\"GetterSource\":\"slaveUrl\""));
         assertTrue(job.contains("\"privileged\":false"));
         assertTrue(job.contains("\"network_mode\":\"bridge\""));
