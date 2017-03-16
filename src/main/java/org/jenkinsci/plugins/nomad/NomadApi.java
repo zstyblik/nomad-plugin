@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.Arrays;
+import java.util.ListIterator;
 import org.apache.commons.lang.StringUtils;
 
 public final class NomadApi {
@@ -127,6 +130,8 @@ public final class NomadApi {
             NomadSlaveTemplate template
     ) {
 
+        ArrayList<Constraints> constraintGroups = new ArrayList<Constraints>();
+
         Task task = new Task(
                 "jenkins-slave",
                 template.getDriver(),
@@ -149,6 +154,15 @@ public final class NomadApi {
                 new EphemeralDisk(template.getDisk(), false, false)
         );
 
+        if(template.getConstraints() != null && !template.getConstraints().isEmpty()) {
+                List<String> constraintList = Arrays.asList(template.getConstraints().split(","));
+                for (ListIterator<String> iter = constraintList.listIterator(); iter.hasNext(); ) {
+                        constraintGroups.add(new Constraints("${" + iter.next() + "}", iter.next(), iter.next()));
+                }
+        }
+
+        Constraints[] constraintSerialize = constraintGroups.toArray(new Constraints[constraintGroups.size()]);
+
         Job job = new Job(
                 name,
                 name,
@@ -156,7 +170,8 @@ public final class NomadApi {
                 "batch",
                 template.getPriority(),
                 template.getDatacenters().split(","),
-                new TaskGroup[]{taskGroup}
+                new TaskGroup[]{taskGroup},
+                constraintSerialize
         );
 
         Gson gson = new Gson();

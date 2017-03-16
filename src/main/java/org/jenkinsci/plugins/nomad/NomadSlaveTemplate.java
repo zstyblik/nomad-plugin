@@ -41,6 +41,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private NomadCloud cloud;
     private String driver;
     private String datacenters;
+    private String constraints;
     private Set<LabelAtom> labelSet;
 
     @DataBoundConstructor
@@ -57,6 +58,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String priority,
             String image,
             String datacenters,
+            String constraints,
             String username,
             String password,
             Boolean privileged,
@@ -76,6 +78,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.region = region;
         this.image = image;
         this.datacenters = datacenters;
+        this.constraints = constraints;
         this.username = username;
         this.password = password;
         this.privileged = privileged;
@@ -148,6 +151,10 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
 
     public String getDatacenters() {
         return datacenters;
+    }
+
+    public String getConstraints() {
+        return constraints;
     }
 
     public int getPriority() {

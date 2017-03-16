@@ -16,6 +16,10 @@
             <f:textbox/>
         </f:entry>
 
+        <f:entry title="${Constraints}" field="constraints" description="comma separated LTarget,RTarget,Operand">
+            <f:textbox/>
+        </f:entry>
+
         <f:entry title="Disk" field="disk">
             <f:textbox/>
         </f:entry>

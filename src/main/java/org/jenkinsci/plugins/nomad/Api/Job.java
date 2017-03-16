@@ -9,6 +9,7 @@ public final class Job {
     private Integer Priority;
     private String[] Datacenters;
     private TaskGroup[] TaskGroups;
+    private Constraints[] Constraints;
 
     public Job(
         String ID,
@@ -17,7 +18,8 @@ public final class Job {
         String type,
         Integer priority,
         String[] datacenters,
-        TaskGroup[] taskGroups)
+        TaskGroup[] taskGroups,
+        Constraints[] constraints)
     {
         this.ID = ID;
         Name = name;
@@ -26,6 +28,7 @@ public final class Job {
         Priority = priority;
         Datacenters = datacenters;
         TaskGroups = taskGroups;
+        Constraints = constraints;
     }
 
     public String getID() {
@@ -82,6 +85,14 @@ public final class Job {
 
     public void setTaskGroups(TaskGroup[] taskGroups) {
         TaskGroups = taskGroups;
+    }
+
+    public Constraints[] getConstraints() {
+        return Constraints;
+    }
+
+    public void setConstraints(Constraints[] constraints) {
+        Constraints = constraints;
     }
 
 }
