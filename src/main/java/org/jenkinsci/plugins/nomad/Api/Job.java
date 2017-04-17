@@ -1,5 +1,8 @@
 package org.jenkinsci.plugins.nomad.Api;
 
+import java.util.List;
+import org.jenkinsci.plugins.nomad.NomadConstraintTemplate;
+
 public final class Job {
 
     private String ID;
@@ -8,8 +11,8 @@ public final class Job {
     private String Type;
     private Integer Priority;
     private String[] Datacenters;
+    private List<Constraint> Constraints;
     private TaskGroup[] TaskGroups;
-    private Constraints[] Constraints;
 
     public Job(
         String ID,
@@ -18,8 +21,8 @@ public final class Job {
         String type,
         Integer priority,
         String[] datacenters,
-        TaskGroup[] taskGroups,
-        Constraints[] constraints)
+        List<Constraint> constraints,
+        TaskGroup[] taskGroups)
     {
         this.ID = ID;
         Name = name;
@@ -27,8 +30,8 @@ public final class Job {
         Type = type;
         Priority = priority;
         Datacenters = datacenters;
-        TaskGroups = taskGroups;
         Constraints = constraints;
+        TaskGroups = taskGroups;
     }
 
     public String getID() {
@@ -87,11 +90,11 @@ public final class Job {
         TaskGroups = taskGroups;
     }
 
-    public Constraints[] getConstraints() {
+    public List<Constraint> getConstraints() {
         return Constraints;
     }
 
-    public void setConstraints(Constraints[] constraints) {
+    public void setConstraints(List<Constraint> constraints) {
         Constraints = constraints;
     }
 
