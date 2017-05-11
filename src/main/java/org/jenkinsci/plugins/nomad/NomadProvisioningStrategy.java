@@ -34,8 +34,8 @@ public class NomadProvisioningStrategy extends NodeProvisioner.Strategy {
         LoadStatisticsSnapshot snapshot = strategyState.getSnapshot();
         for ( Cloud nomadCloud : Jenkins.getActiveInstance().clouds ){
             if ( nomadCloud instanceof NomadCloud ) {
-                
-                LOGGER.log(Level.INFO, "Available executors={0} connecting executors={1} AdditionalPlannedCapacity={2} pending ={3}", 
+
+                LOGGER.log(Level.FINE, "Available executors={0} connecting executors={1} AdditionalPlannedCapacity={2} pending ={3}",
                         new Object[]{snapshot.getAvailableExecutors(), snapshot.getConnectingExecutors(), strategyState.getAdditionalPlannedCapacity(),((NomadCloud)nomadCloud).getPending() });
                 int availableCapacity = snapshot.getAvailableExecutors() +
                         snapshot.getConnectingExecutors() +
@@ -44,27 +44,27 @@ public class NomadProvisioningStrategy extends NodeProvisioner.Strategy {
 
                 int currentDemand = snapshot.getQueueLength();
 
-                LOGGER.log(Level.INFO, "Available capacity="+availableCapacity+" currentDemand=" +currentDemand);
+                LOGGER.log(Level.FINE, "Available capacity="+availableCapacity+" currentDemand=" +currentDemand);
 
                 if (availableCapacity < currentDemand) {
                     Collection<PlannedNode> plannedNodes = nomadCloud.provision(label, currentDemand - availableCapacity);
-                    LOGGER.log(Level.INFO,"Planned "+plannedNodes.size()+" new nodes");
+                    LOGGER.log(Level.FINE, "Planned "+plannedNodes.size()+" new nodes");
 
                     strategyState.recordPendingLaunches(plannedNodes);
                     availableCapacity += plannedNodes.size();
-                    LOGGER.log(Level.INFO,"After provisioning, available capacity="+availableCapacity+" currentDemand="+ currentDemand);
+                    LOGGER.log(Level.FINE, "After provisioning, available capacity="+availableCapacity+" currentDemand="+ currentDemand);
                 }
 
                 if (availableCapacity >= currentDemand) {
-                    LOGGER.log(Level.INFO,"Provisioning completed");
+                    LOGGER.log(Level.FINE, "Provisioning completed");
                     return NodeProvisioner.StrategyDecision.PROVISIONING_COMPLETED;
                 } else {
-                    LOGGER.log(Level.INFO,"Provisioning not complete, consulting remaining strategies");
+                    LOGGER.log(Level.FINE, "Provisioning not complete, consulting remaining strategies");
                     return NodeProvisioner.StrategyDecision.CONSULT_REMAINING_STRATEGIES;
                 }
             }
         }
-        LOGGER.log(Level.INFO,"Provisioning not complete, consulting remaining strategies");
+        LOGGER.log(Level.FINE,"Provisioning not complete, consulting remaining strategies");
         return NodeProvisioner.StrategyDecision.CONSULT_REMAINING_STRATEGIES;
     }
 }
