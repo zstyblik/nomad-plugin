@@ -5,6 +5,7 @@ import java.util.Map;
 public class Task {
     private String Name;
     private String Driver;
+    private String User;
     private Map<String, Object> Config;
     private Resource Resources;
     private LogConfig LogConfig;
@@ -13,6 +14,7 @@ public class Task {
     public Task(
             String name,
             String driver,
+            String user,
             Map<String, Object> config,
             Resource resources,
             LogConfig logConfig,
@@ -20,6 +22,7 @@ public class Task {
     ) {
         Name = name;
         Driver = driver;
+        User = user;
         Config = config;
         Resources = resources;
         LogConfig = logConfig;
@@ -40,6 +43,14 @@ public class Task {
 
     public void setDriver(String driver) {
         Driver = driver;
+    }
+
+    public String getUser() {
+        return User;
+    }
+
+    public void setUser(String user) {
+        User = user;
     }
 
     public Map<String, Object> getConfig() {
