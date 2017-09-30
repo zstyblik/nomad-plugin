@@ -117,7 +117,7 @@ public final class NomadApi {
             if (!hostVolumes.isEmpty()) {
                 driverConfig.put("volumes", StringUtils.split(hostVolumes, ","));
             }
-         
+
             driverConfig.put("args", args);
             driverConfig.put("force_pull", template.getForcePull());
             driverConfig.put("privileged", template.getPrivileged());
@@ -136,6 +136,7 @@ public final class NomadApi {
         Task task = new Task(
                 "jenkins-slave",
                 template.getDriver(),
+                template.getSwitchUser(),
                 buildDriverConfig(name, secret,template),
                 new Resource(
                     template.getCpu(),
