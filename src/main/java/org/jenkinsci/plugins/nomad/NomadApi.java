@@ -112,6 +112,11 @@ public final class NomadApi {
                 args.add(1, "/local/slave.jar");
             }
             driverConfig.put("image", template.getImage());
+
+            String hostVolumes = template.getHostVolumes();
+            if (!hostVolumes.isEmpty()) {
+                driverConfig.put("volumes", StringUtils.split(hostVolumes, ","));
+            }
          
             driverConfig.put("args", args);
             driverConfig.put("force_pull", template.getForcePull());
