@@ -62,6 +62,9 @@
             <f:entry title="Privileged">
                 <f:checkbox name="privileged" field="privileged" default="false" value="${instance.privileged}" />
             </f:entry>
+            <f:entry title="Host Volumes">
+                <f:textbox name="hostVolumes" field="hostVolumes" default="" />
+            </f:entry>
             <f:entry title="Network">
                 <f:textbox name="network" field="network" default="bridge"/>
             </f:entry>
