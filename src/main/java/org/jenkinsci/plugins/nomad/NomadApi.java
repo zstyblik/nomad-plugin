@@ -95,22 +95,32 @@ public final class NomadApi {
             driverConfig.put("jar_path", "/local/slave.jar");
             driverConfig.put("args", args);
         } else if (template.getDriver().equals("docker")) {
+            String switchUser = template.getSwitchUser();
+            if (switchUser.isEmpty()) {
+                switchUser = "root";
+            }
+
             String prefixCmd = template.getPrefixCmd();
+            String cmd;
             // If an addtional command is defined - prepend it to jenkins slave invocation
             if (!prefixCmd.isEmpty())
             {
-                driverConfig.put("command", "/bin/bash");
-                String argString = prefixCmd + "; java -jar /local/slave.jar ";
-                argString += StringUtils.join(args, " ");
-                args.clear();
-                args.add("-c");
-                args.add(argString);
+                cmd = prefixCmd + "; java -jar /local/slave.jar ";
             }
             else {
-                driverConfig.put("command", "java");
-                args.add(0, "-jar");
-                args.add(1, "/local/slave.jar");
+                cmd = "java -jar /local/slave.jar ";
             }
+            cmd += StringUtils.join(args, " ");
+
+            driverConfig.put("command", "/bin/su");
+            args.clear();
+            args.add("-s");
+            args.add("/bin/bash");
+            args.add("-l");
+            args.add(switchUser);
+            args.add("-c");
+            args.add(cmd);
+
             driverConfig.put("image", template.getImage());
 
             String hostVolumes = template.getHostVolumes();
