@@ -114,6 +114,7 @@ public final class NomadApi {
             driverConfig.put("image", template.getImage());
          
             driverConfig.put("args", args);
+            driverConfig.put("force_pull", template.getForcePull());
             driverConfig.put("privileged", template.getPrivileged());
             driverConfig.put("network_mode", template.getNetwork());
         }
