@@ -36,6 +36,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private final String username;
     private final String password;
     private final String prefixCmd;
+    private final Boolean forcePull;
     private final Node.Mode mode;
 
     private NomadCloud cloud;
@@ -61,7 +62,8 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String password,
             Boolean privileged,
             String network,
-            String prefixCmd
+            String prefixCmd,
+            Boolean forcePull
             ) {
         this.cpu = Integer.parseInt(cpu);
         this.memory = Integer.parseInt(memory);
@@ -81,6 +83,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.privileged = privileged;
         this.network = network;
         this.prefixCmd = prefixCmd;
+        this.forcePull = forcePull;
         readResolve();
     }
 
@@ -196,5 +199,9 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
 
     public String getNetwork() {
         return network;
+    }
+
+    public Boolean getForcePull() {
+        return forcePull;
     }
 }

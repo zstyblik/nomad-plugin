@@ -56,6 +56,9 @@
             <f:entry title="Password">
                 <f:password name="password" field="password" />
             </f:entry>
+            <f:entry title="Force Pull">
+                <f:checkbox name="forcePull" field="forcePull" default="false" value="${instance.forcePull}" />
+            </f:entry>
             <f:entry title="Privileged">
                 <f:checkbox name="privileged" field="privileged" default="false" value="${instance.privileged}" />
             </f:entry>
