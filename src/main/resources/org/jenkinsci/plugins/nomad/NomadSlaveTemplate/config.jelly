@@ -56,13 +56,13 @@
             <f:entry title="Password">
                 <f:password name="password" field="password" />
             </f:entry>
-            <f:entry title="Force Pull">
+            <f:entry title="Force Pull" field="forcePull">
                 <f:checkbox name="forcePull" field="forcePull" default="false" value="${instance.forcePull}" />
             </f:entry>
             <f:entry title="Privileged">
                 <f:checkbox name="privileged" field="privileged" default="false" value="${instance.privileged}" />
             </f:entry>
-            <f:entry title="Host Volumes">
+            <f:entry title="Host Volumes" field="hostVolumes">
                 <f:textbox name="hostVolumes" field="hostVolumes" default="" />
             </f:entry>
             <f:entry title="Network">
