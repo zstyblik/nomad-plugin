@@ -21,6 +21,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private static final Logger LOGGER = Logger.getLogger(NomadSlaveTemplate.class.getName());
 
     private final int idleTerminationInMinutes;
+    private final Boolean reusable;
     private final int numExecutors;
 
     private final int cpu;
@@ -54,6 +55,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String labels,
             String remoteFs,
             String idleTerminationInMinutes,
+            Boolean reusable,
             String numExecutors,
             Node.Mode mode,
             String region,
@@ -74,6 +76,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.disk = Integer.parseInt(disk);
         this.priority = Integer.parseInt(priority);
         this.idleTerminationInMinutes = Integer.parseInt(idleTerminationInMinutes);
+        this.reusable = reusable;
         this.numExecutors = Integer.parseInt(numExecutors);
         this.mode = mode;
         this.remoteFs = remoteFs;
@@ -149,6 +152,10 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
 
     public int getIdleTerminationInMinutes() {
         return idleTerminationInMinutes;
+    }
+
+    public Boolean getReusable() {
+        return reusable;
     }
 
     public String getRegion() {

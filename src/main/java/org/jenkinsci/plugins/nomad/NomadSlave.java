@@ -17,6 +17,8 @@ public class NomadSlave extends AbstractCloudSlave implements EphemeralNode {
 
     private final NomadCloud cloud;
 
+    private final Boolean reusable;
+
     public NomadSlave(
         NomadCloud cloud,
         String name,
@@ -39,6 +41,7 @@ public class NomadSlave extends AbstractCloudSlave implements EphemeralNode {
         );
 
         this.cloud = cloud;
+        this.reusable = template.getReusable();
     }
 
     @Override
@@ -76,5 +79,9 @@ public class NomadSlave extends AbstractCloudSlave implements EphemeralNode {
 
     public NomadCloud getCloud() {
         return cloud;
+    }
+
+    public Boolean getReusable() {
+        return reusable;
     }
 }

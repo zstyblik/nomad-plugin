@@ -13,15 +13,21 @@ public class NomadComputer extends AbstractCloudComputer<NomadSlave> {
 
     private final NomadCloud cloud;
 
+    private final Boolean reusable;
+
     public NomadComputer(NomadSlave slave) {
         super(slave);
 
         this.cloud = slave.getCloud();
+        this.reusable = slave.getReusable();
     }
 
     @Override
     public void taskAccepted(Executor executor, Queue.Task task) {
         super.taskAccepted(executor, task);
+        if (!reusable) {
+            setAcceptingTasks(false);
+        }
         LOGGER.log(Level.INFO, " Computer " + this + ": task accepted");
     }
 
