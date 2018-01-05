@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public final class NomadApi {
 
     private static final Logger LOGGER = Logger.getLogger(NomadApi.class.getName());
@@ -149,6 +151,9 @@ public final class NomadApi {
                 new EphemeralDisk(template.getDisk(), false, false)
         );
 
+        ConstraintGroup constraintGroup = new ConstraintGroup(template.getConstraints());
+        List<Constraint> Constraints = constraintGroup.getConstraints();
+
         Job job = new Job(
                 name,
                 name,
@@ -156,6 +161,7 @@ public final class NomadApi {
                 "batch",
                 template.getPriority(),
                 template.getDatacenters().split(","),
+                Constraints,
                 new TaskGroup[]{taskGroup}
         );
 

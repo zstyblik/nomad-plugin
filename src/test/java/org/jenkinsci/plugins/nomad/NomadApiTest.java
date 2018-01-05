@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.util.Collections;
 import static org.junit.Assert.assertTrue;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Yegor Andreenko
@@ -13,9 +15,10 @@ import static org.junit.Assert.assertTrue;
 public class NomadApiTest {
 
     private NomadApi nomadApi = new NomadApi("http://localhost");
+    private List<NomadConstraintTemplate> constraintTest = new ArrayList<NomadConstraintTemplate>();
     private NomadSlaveTemplate slaveTemplate = new NomadSlaveTemplate(
             "300", "256", "100",
-            null, "remoteFs", "3","1", Node.Mode.NORMAL,
+            null, constraintTest, "remoteFs", "3","1", Node.Mode.NORMAL,
             "ams", "0", "image", "dc01", "", "", false, "bridge",""
     );
 

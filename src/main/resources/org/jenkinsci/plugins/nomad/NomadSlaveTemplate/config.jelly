@@ -16,6 +16,12 @@
             <f:textbox/>
         </f:entry>
 
+        <f:entry title="Constraints" help="/plugin/nomad/help-constraints.html">
+            <f:repeatable field="constraints">
+            <st:include page="/org/jenkinsci/plugins/nomad/NomadConstraintTemplate/config.jelly" class="org.jenkinsci.plugins.nomad.NomadConstraintTemplate$DescriptorImpl"/>
+            </f:repeatable>
+        </f:entry>
+
         <f:entry title="Disk" field="disk">
             <f:textbox/>
         </f:entry>
