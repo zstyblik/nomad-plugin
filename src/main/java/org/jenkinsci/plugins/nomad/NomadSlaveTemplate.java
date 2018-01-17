@@ -2,8 +2,10 @@ package org.jenkinsci.plugins.nomad;
 
 import hudson.Extension;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 
 import hudson.Util;
+import hudson.util.FormValidation;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Label;
@@ -12,6 +14,7 @@ import hudson.model.labels.LabelAtom;
 import jenkins.model.Jenkins;
 
 import java.lang.reflect.Type;
+import com.google.common.base.Strings;
 import com.google.gson.reflect.TypeToken;
 
 import javax.annotation.Nullable;
@@ -114,7 +117,6 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         return this;
     }
 
-   
     @Extension
     public static final class DescriptorImpl extends Descriptor<NomadSlaveTemplate> {
 
@@ -125,6 +127,14 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         @Override
         public String getDisplayName() {
             return null;
+        }
+
+        public FormValidation doCheckDatacenters(@QueryParameter String datacenters) {
+            if (Strings.isNullOrEmpty(datacenters)) {
+                return FormValidation.error("Datacenters must be set");
+            } else {
+                return FormValidation.ok();
+            }
         }
     }
 
@@ -145,7 +155,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     public int getNumExecutors() {
         return numExecutors;
     }
-    
+
     public Node.Mode getMode() {
         return mode;
     }
@@ -214,7 +224,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     public String getPassword() {
         return password;
     }
-    
+
     public String getPrefixCmd() {
         return prefixCmd;
     }
