@@ -62,14 +62,23 @@
             <f:entry title="Password">
                 <f:password name="password" field="password" />
             </f:entry>
+            <f:entry title="Force Pull" field="forcePull">
+                <f:checkbox name="forcePull" field="forcePull" default="false" value="${instance.forcePull}" />
+            </f:entry>
             <f:entry title="Privileged">
                 <f:checkbox name="privileged" field="privileged" default="false" value="${instance.privileged}" />
+            </f:entry>
+            <f:entry title="Host Volumes" field="hostVolumes">
+                <f:textbox name="hostVolumes" field="hostVolumes" default="" />
             </f:entry>
             <f:entry title="Network">
                 <f:textbox name="network" field="network" default="bridge"/>
             </f:entry>
             <f:entry title="Prefix Command" field="preCmd">
                 <f:textbox name="prefixCmd" field="prefixCmd"/>
+            </f:entry>
+            <f:entry title="Switch User" field="switchUser">
+                <f:textbox name="switchUser" field="switchUser" default="" />
             </f:entry>
         </f:optionalBlock>
 
