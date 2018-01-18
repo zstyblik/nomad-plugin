@@ -5,11 +5,11 @@
     <table width="100%">
 
         <f:entry title="Cpu" field="cpu">
-            <f:textbox/>
+            <f:textbox default="${descriptor.getDefaultCPU()}" />
         </f:entry>
 
         <f:entry title="Memory" field="memory">
-            <f:textbox/>
+            <f:textbox default="${descriptor.getDefaultMemory()}" />
         </f:entry>
 
         <f:entry title="Labels" field="labels">
@@ -23,7 +23,7 @@
         </f:entry>
 
         <f:entry title="Disk" field="disk">
-            <f:textbox/>
+            <f:textbox default="${descriptor.getDefaultDisk()}" />
         </f:entry>
 
         <f:entry title="Region" field="region">
@@ -31,15 +31,15 @@
         </f:entry>
 
         <f:entry title="Datacenters" field="datacenters">
-            <f:textbox default="dc1"/>
+            <f:textbox default="${descriptor.getDefaultDatacenters()}"/>
         </f:entry>
 
         <f:entry title="Priority" field="priority">
-            <f:textbox/>
+            <f:textbox default="${descriptor.getDefaultPriority()}" />
         </f:entry>
 
         <f:entry title="Idle termination time" field="idleTerminationInMinutes">
-            <f:textbox default="10" />
+            <f:textbox default="${descriptor.getDefaultIdleTerminationInMinutes()}" />
         </f:entry>
 
         <f:entry title="Reusable">
@@ -47,7 +47,7 @@
         </f:entry>
 
         <f:entry title="Executors" field="numExecutors">
-            <f:textbox default="1" />
+            <f:textbox default="${descriptor.getDefaultNumExecutors()}" />
         </f:entry>
         
         <f:slave-mode name="mode" node="${instance}" />

@@ -57,6 +57,14 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     private String datacenters;
     private Set<LabelAtom> labelSet;
 
+    public static final String DEFAULT_DATACENTERS = "dc1";
+    public static final int DEFAULT_CPU = 256;
+    public static final int DEFAULT_DISK = 300;
+    public static final int DEFAULT_IDLE_TERMINATION_IN_MINUTES = 10;
+    public static final int DEFAULT_MEMORY = 1024;
+    public static final int DEFAULT_NUM_EXECUTORS = 1;
+    public static final int DEFAULT_PRIORITY = 1;
+
     @DataBoundConstructor
     public NomadSlaveTemplate(
             String cpu,
@@ -82,13 +90,73 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String hostVolumes,
             String switchUser
             ) {
-        this.cpu = Integer.parseInt(cpu);
-        this.memory = Integer.parseInt(memory);
-        this.disk = Integer.parseInt(disk);
-        this.priority = Integer.parseInt(priority);
-        this.idleTerminationInMinutes = Integer.parseInt(idleTerminationInMinutes);
+        if (!Strings.isNullOrEmpty(cpu)) {
+            int cpuConverted = Integer.parseInt(cpu);
+            if (cpuConverted < 1) {
+                this.cpu = DEFAULT_CPU;
+            } else {
+                this.cpu = cpuConverted;
+            }
+        } else {
+            this.cpu = DEFAULT_CPU;
+        }
+
+        if (!Strings.isNullOrEmpty(memory)) {
+            int memoryConverted = Integer.parseInt(memory);
+            if (memoryConverted < 1) {
+                this.memory = DEFAULT_MEMORY;
+            } else {
+                this.memory = memoryConverted;
+            }
+        } else {
+            this.memory = DEFAULT_MEMORY;
+        }
+
+        if (!Strings.isNullOrEmpty(disk)) {
+            int diskConverted = Integer.parseInt(disk);
+            if (diskConverted < 1) {
+                this.disk = DEFAULT_DISK;
+            } else {
+                this.disk = diskConverted;
+            }
+        } else {
+            this.disk = DEFAULT_DISK;
+        }
+
+        if (!Strings.isNullOrEmpty(priority)) {
+            int priorityConverted = Integer.parseInt(priority);
+            if (priorityConverted < 1) {
+                this.priority = DEFAULT_PRIORITY;
+            } else {
+                this.priority = priorityConverted;
+            }
+        } else {
+            this.priority = DEFAULT_PRIORITY;
+        }
+        if (!Strings.isNullOrEmpty(idleTerminationInMinutes)) {
+            int idleTerminationInMinutesConverted = Integer.parseInt(idleTerminationInMinutes);
+            if (idleTerminationInMinutesConverted < 0) {
+                this.idleTerminationInMinutes = DEFAULT_IDLE_TERMINATION_IN_MINUTES;
+            } else {
+                this.idleTerminationInMinutes = idleTerminationInMinutesConverted;
+            }
+        } else {
+            this.idleTerminationInMinutes = DEFAULT_IDLE_TERMINATION_IN_MINUTES;
+        }
+
         this.reusable = reusable;
-        this.numExecutors = Integer.parseInt(numExecutors);
+
+        if (!Strings.isNullOrEmpty(numExecutors)) {
+            int numExecutorsConverted = Integer.parseInt(numExecutors);
+            if (numExecutorsConverted < 1) {
+                this.numExecutors = DEFAULT_NUM_EXECUTORS;
+            } else {
+                this.numExecutors = numExecutorsConverted;
+            }
+        } else {
+            this.numExecutors = DEFAULT_NUM_EXECUTORS;
+        }
+
         this.mode = mode;
         this.remoteFs = remoteFs;
         this.labels = Util.fixNull(labels);
@@ -100,7 +168,13 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.labelSet = Label.parse(labels);
         this.region = region;
         this.image = image;
-        this.datacenters = datacenters;
+
+        if (!Strings.isNullOrEmpty(datacenters)) {
+            this.datacenters = datacenters;
+        } else {
+            this.datacenters = DEFAULT_DATACENTERS;
+        }
+
         this.username = username;
         this.password = password;
         this.privileged = privileged;
@@ -129,6 +203,47 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             return null;
         }
 
+        public int getDefaultCPU() {
+            return DEFAULT_CPU;
+        }
+
+        public String getDefaultDatacenters() {
+            return DEFAULT_DATACENTERS;
+        }
+
+        public int getDefaultDisk() {
+            return DEFAULT_DISK;
+        }
+
+        public int getDefaultMemory() {
+            return DEFAULT_MEMORY;
+        }
+
+        public int getDefaultIdleTerminationInMinutes() {
+            return DEFAULT_IDLE_TERMINATION_IN_MINUTES;
+        }
+
+        public int getDefaultNumExecutors() {
+            return DEFAULT_NUM_EXECUTORS;
+        }
+
+        public int getDefaultPriority() {
+            return DEFAULT_PRIORITY;
+        }
+
+        public FormValidation doCheckCpu(@QueryParameter String cpu) {
+            if (!isInt(cpu)) {
+                return FormValidation.error("CPU must be set and be a number");
+            }
+
+            int cpuConverted = Integer.parseInt(cpu);
+            if (cpuConverted < 1) {
+                return FormValidation.error("CPU must be greater than 0");
+            }
+
+            return FormValidation.ok();
+        }
+
         public FormValidation doCheckDatacenters(@QueryParameter String datacenters) {
             if (Strings.isNullOrEmpty(datacenters)) {
                 return FormValidation.error("Datacenters must be set");
@@ -136,6 +251,78 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
                 return FormValidation.ok();
             }
         }
+
+        public FormValidation doCheckDisk(@QueryParameter String disk) {
+            if (!isInt(disk)) {
+                return FormValidation.error("Disk must be set and be a number");
+            }
+
+            int diskConverted = Integer.parseInt(disk);
+            if (diskConverted < 1) {
+                return FormValidation.error("Disk must be greater than 0");
+            }
+
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckIdleTerminationInMinutes(@QueryParameter String idleTerminationInMinutes) {
+            if (!isInt(idleTerminationInMinutes)) {
+                return FormValidation.error("Idle Termination Time must be set and be a number");
+            }
+
+            int itimConverted = Integer.parseInt(idleTerminationInMinutes);
+            if (itimConverted < 0) {
+                return FormValidation.error("Idle Termination Time must be greater than or equal to 0");
+            }
+
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckMemory(@QueryParameter String memory) {
+            if (!isInt(memory)) {
+                return FormValidation.error("Memory must be set and be a number");
+            }
+
+            int memoryConverted = Integer.parseInt(memory);
+            if (memoryConverted < 1) {
+                return FormValidation.error("Memory must be greater than 0");
+            }
+
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckNumExecutors(@QueryParameter String numExecutors) {
+            if (!isInt(numExecutors)) {
+                return FormValidation.error("Number of Executors must be set and be a number");
+            }
+
+            int numExecutorsConverted = Integer.parseInt(numExecutors);
+            if (numExecutorsConverted < 1) {
+                return FormValidation.error("Number of Executors must be greater than 0");
+            }
+
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckPriority(@QueryParameter String priority) {
+            if (!isInt(priority)) {
+                return FormValidation.error("Priority must be set and be a number");
+            }
+
+            int priorityConverted = Integer.parseInt(priority);
+            if (priorityConverted < 1) {
+                return FormValidation.error("Priority must be greater than 0");
+            }
+
+            return FormValidation.ok();
+        }
+    }
+
+    static Boolean isInt(String str) {
+        if (!Strings.isNullOrEmpty(str) && str.matches("^-?\\d+$")) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -159,7 +346,6 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
     public Node.Mode getMode() {
         return mode;
     }
-
 
     public int getCpu() {
         return cpu;
