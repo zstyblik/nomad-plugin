@@ -90,73 +90,13 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             String hostVolumes,
             String switchUser
             ) {
-        if (!Strings.isNullOrEmpty(cpu)) {
-            int cpuConverted = Integer.parseInt(cpu);
-            if (cpuConverted < 1) {
-                this.cpu = DEFAULT_CPU;
-            } else {
-                this.cpu = cpuConverted;
-            }
-        } else {
-            this.cpu = DEFAULT_CPU;
-        }
-
-        if (!Strings.isNullOrEmpty(memory)) {
-            int memoryConverted = Integer.parseInt(memory);
-            if (memoryConverted < 1) {
-                this.memory = DEFAULT_MEMORY;
-            } else {
-                this.memory = memoryConverted;
-            }
-        } else {
-            this.memory = DEFAULT_MEMORY;
-        }
-
-        if (!Strings.isNullOrEmpty(disk)) {
-            int diskConverted = Integer.parseInt(disk);
-            if (diskConverted < 1) {
-                this.disk = DEFAULT_DISK;
-            } else {
-                this.disk = diskConverted;
-            }
-        } else {
-            this.disk = DEFAULT_DISK;
-        }
-
-        if (!Strings.isNullOrEmpty(priority)) {
-            int priorityConverted = Integer.parseInt(priority);
-            if (priorityConverted < 1) {
-                this.priority = DEFAULT_PRIORITY;
-            } else {
-                this.priority = priorityConverted;
-            }
-        } else {
-            this.priority = DEFAULT_PRIORITY;
-        }
-        if (!Strings.isNullOrEmpty(idleTerminationInMinutes)) {
-            int idleTerminationInMinutesConverted = Integer.parseInt(idleTerminationInMinutes);
-            if (idleTerminationInMinutesConverted < 0) {
-                this.idleTerminationInMinutes = DEFAULT_IDLE_TERMINATION_IN_MINUTES;
-            } else {
-                this.idleTerminationInMinutes = idleTerminationInMinutesConverted;
-            }
-        } else {
-            this.idleTerminationInMinutes = DEFAULT_IDLE_TERMINATION_IN_MINUTES;
-        }
-
+        this.cpu = parseCPU(cpu);
+        this.memory = parseMemory(memory);
+        this.disk = parseDisk(disk);
+        this.priority = parsePriority(priority);
+        this.idleTerminationInMinutes = parseIdleTerminationInMinutes(idleTerminationInMinutes);
         this.reusable = reusable;
-
-        if (!Strings.isNullOrEmpty(numExecutors)) {
-            int numExecutorsConverted = Integer.parseInt(numExecutors);
-            if (numExecutorsConverted < 1) {
-                this.numExecutors = DEFAULT_NUM_EXECUTORS;
-            } else {
-                this.numExecutors = numExecutorsConverted;
-            }
-        } else {
-            this.numExecutors = DEFAULT_NUM_EXECUTORS;
-        }
-
+        this.numExecutors = parseNumExecutors(numExecutors);
         this.mode = mode;
         this.remoteFs = remoteFs;
         this.labels = Util.fixNull(labels);
@@ -168,13 +108,7 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
         this.labelSet = Label.parse(labels);
         this.region = region;
         this.image = image;
-
-        if (!Strings.isNullOrEmpty(datacenters)) {
-            this.datacenters = datacenters;
-        } else {
-            this.datacenters = DEFAULT_DATACENTERS;
-        }
-
+        this.datacenters = parseDatacenters(datacenters);
         this.username = username;
         this.password = password;
         this.privileged = privileged;
@@ -323,6 +257,90 @@ public class NomadSlaveTemplate implements Describable<NomadSlaveTemplate> {
             return true;
         }
         return false;
+    }
+
+    static String parseDatacenters(String datacenters) {
+        if (!Strings.isNullOrEmpty(datacenters)) {
+            return datacenters;
+        }
+        return DEFAULT_DATACENTERS;
+    }
+
+    static int parseCPU(String cpu) {
+        int retval = DEFAULT_CPU;
+        if (Strings.isNullOrEmpty(cpu) || !isInt(cpu)) {
+            return retval;
+        }
+        int cpuConverted = Integer.parseInt(cpu);
+        if (cpuConverted > 0) {
+            retval = cpuConverted;
+        }
+        return retval;
+    }
+
+    static int parseDisk(String disk) {
+        int retval = DEFAULT_DISK;
+        if (Strings.isNullOrEmpty(disk) || !isInt(disk)) {
+            return retval;
+        }
+
+        int diskConverted = Integer.parseInt(disk);
+        if (diskConverted > 0) {
+            retval = diskConverted;
+        }
+        return retval;
+    }
+
+    static int parseIdleTerminationInMinutes(String idleTerminationInMinutes) {
+        int retval = DEFAULT_IDLE_TERMINATION_IN_MINUTES;
+        if (Strings.isNullOrEmpty(idleTerminationInMinutes) || !isInt(idleTerminationInMinutes)) {
+            return retval;
+        }
+
+        int idleTerminationInMinutesConverted = Integer.parseInt(idleTerminationInMinutes);
+        if (idleTerminationInMinutesConverted >= 0) {
+            retval = idleTerminationInMinutesConverted;
+        }
+        return retval;
+    }
+
+    static int parseMemory(String memory) {
+        int retval = DEFAULT_MEMORY;
+        if (Strings.isNullOrEmpty(memory) || !isInt(memory)) {
+            return retval;
+        }
+
+        int memoryConverted = Integer.parseInt(memory);
+        if (memoryConverted > 0) {
+            retval = memoryConverted;
+        }
+        return retval;
+    }
+
+    static int parseNumExecutors(String numExecutors) {
+        int retval = DEFAULT_NUM_EXECUTORS;
+        if (Strings.isNullOrEmpty(numExecutors) || !isInt(numExecutors)) {
+            return retval;
+        }
+
+        int numExecutorsConverted = Integer.parseInt(numExecutors);
+        if (numExecutorsConverted > 0) {
+            retval = numExecutorsConverted;
+        }
+        return retval;
+    }
+
+    static int parsePriority(String priority) {
+        int retval = DEFAULT_PRIORITY;
+        if (Strings.isNullOrEmpty(priority) || !isInt(priority)) {
+            return retval;
+        }
+
+        int priorityConverted = Integer.parseInt(priority);
+        if (priorityConverted > 0) {
+            retval = priorityConverted;
+        }
+        return retval;
     }
 
     @Override
